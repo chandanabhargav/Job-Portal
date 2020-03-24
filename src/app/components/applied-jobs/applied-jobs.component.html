@@ -1,0 +1,39 @@
+<div class="container">
+    <app-top-nav-bar></app-top-nav-bar>
+    <div class="row height-100">
+        <div class="col-md-2 offset-md-1 height-100 margin-top-20 pos-fix margin-top-70">
+            <app-left-nav-bar></app-left-nav-bar>
+        </div>
+        <div class="col-md-6 offset-md-3 height-100 margin-top-70">
+            <div class="jobs top-row">
+                <div class="row jobs-header">
+                    <div class="col-md-12 text-center">
+                        Jobs you have applied to
+                    </div>
+                </div>
+                <div class="row jobs-body-2" id="{{job.jobId}}" *ngFor="let job of jobs">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <strong>{{job.position}}</strong>
+                            </div>    
+                            <div class="col-md-4">
+                                <span class="gray-font">{{formatDate2(job.postedOn)}}</span>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="col-md-12">
+                                Company: {{job.userName}}
+                            </div>    
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="col-md-9">
+                                <a routerLink="/viewPostedJobDetails/{{job.jobId}}"> Show Details </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

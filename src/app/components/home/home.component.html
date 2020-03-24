@@ -1,0 +1,89 @@
+<div class="container">
+    <app-top-nav-bar></app-top-nav-bar>
+    <div class="row height-100">
+        <div class="col-md-2 offset-md-1 height-100 margin-top-20 pos-fix margin-top-70">
+            <app-left-nav-bar></app-left-nav-bar>
+        </div>
+        <div *ngIf="isEmployer == '1' && jobs; else employee" class="col-md-8 offset-md-3 height-100 margin-top-70">
+            <div class="jobs top-row">
+                <div class="row jobs-header">
+                    <div class="col-md-3">
+                        Posted On
+                    </div>
+                    <div class="col-md-3">
+                        Position
+                    </div>
+                    <div class="col-md-3">
+                        No. of applicants
+                    </div>
+                </div>
+                <div class="row jobs-body" *ngFor="let job of jobs">
+                    <div class="col-md-3">
+                        {{formatDate(job.postedOn)}}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>{{job.position}}</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{job.applicants}}
+                    </div>
+                    <div class="col-md-3">
+                        <a routerLink="/viewPostedJobDetails/{{job.jobId}}"> Show Details </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #employee>
+            <div class="col-md-6 offset-md-3 height-100 margin-top-70">
+                <div class="jobs top-row">
+                    <div class="row jobs-header">
+                        <div class="col-md-12 text-center">
+                            Recently posted jobs
+                        </div>
+                    </div>
+                    <div class="row jobs-body-2" id="{{job.jobId}}" *ngFor="let job of jobs">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <strong>{{job.position}}</strong>
+                                </div>    
+                                <div class="col-md-4">
+                                    <span class="gray-font">{{formatDate2(job.postedOn)}}</span>
+                                </div>
+                            </div>
+                            <div class="row margin-top-10">
+                                <div class="col-md-12">
+                                    Company: {{job.userName}}
+                                </div>    
+                            </div>
+                            <div class="row margin-top-10">
+                                <div class="col-md-9">
+                                    <a routerLink="/viewPostedJobDetails/{{job.jobId}}"> Show Details </a>
+                                </div>    
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" (click)="applyForJob(job.jobId)">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <!-- <div class="col-md-1 margin-top-70">
+            Back
+        </div> -->
+    </div>
+    
+    <button (click)="openModal(content)" id="openModalBtn"></button>
+    <ng-template #content let-modalPostSucess>
+        <div class="modal-header">
+            Success
+        </div>
+        <div class="modal-body">
+            You have successfully applied for the job
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn" (click)="modalPostSucess.close('Close click');">Ok</button>
+        </div>
+    </ng-template>
+</div>

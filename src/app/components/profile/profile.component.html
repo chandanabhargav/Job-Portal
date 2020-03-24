@@ -1,0 +1,203 @@
+<div class="container">
+    <app-top-nav-bar></app-top-nav-bar>
+    <div class="row height-100">
+        <div class="col-md-2 offset-md-1 height-100 margin-top-20 pos-fix margin-top-70">
+            <app-left-nav-bar></app-left-nav-bar>
+        </div>
+        <div class="col-md-6 offset-md-4 margin-top-70">
+            <div class="row profile-pic-div" *ngIf="user && user[0]">
+                <div class="col-md-3 offset-md-1">
+                    <div *ngIf="user[0]['profilePic']; else elseDp">
+                        <img src="{{user[0]['profilePic']}}" id="dp" class='dp'>
+                    </div>
+                    <ng-template #elseDp>
+                        <img src="../../../assets/images/dp.png" id="dp" class='dp'>
+                    </ng-template>
+                    <input type="file" id="add-dp" accept="image/*" (change)="onFileChange($event)" hidden>
+                </div>
+                <div class="col-md-7 offset-md-1">
+                    <div class='row margin-top-10'>
+                        <strong style="font-size: 18px !important;">{{user[0]['userName']}}</strong>
+                    </div>
+                    <div class='row margin-top-10'>
+                        {{user[0]['location']}}
+                    </div>
+                    <div class='row margin-top-10' *ngIf="isEmployer == 0">
+                        <button class="btn btn-primary" (click)="openFileExpResume()">
+                            Add resume (PDF)
+                        </button>
+                        <input type="file" id="add-resume" accept="application/pdf" (change)="onFileChange2($event)" hidden>
+                        <button class="btn btn-primary margin-left-10" *ngIf="user[0]['resume']">
+                            <a (click)="getPdfUrl($event.target)" download="resume.pdf" class="white-font"> 
+                                Download Resume
+                            </a>
+                        </button>
+                    </div>
+                    <div class='row margin-top-40'>
+                        <div class="col-md-4 offset-md-8">
+                            <button type="button" class="btn btn-upload" (click)="openFileExp()"><i class="fa fa-camera"></i></button>
+                            <button type="button" class="btn btn-upload" (click)="openModal(editContent)"><i class="fa fa-pencil"></i></button>
+                            <ng-template #editContent let-editModal>
+                                <div class="modal-header">
+                                    <h5><strong>Edit Profile</strong></h5>
+                                </div>
+                                <form (submit)="edit()" [formGroup]="editForm">
+                                    <div class="modal-body">
+                                        
+                                        <div class="row form-group">
+                                            <div class="col-md-8 offset-md-2">
+                                                <input class="form-control" formControlName="userName" placeholder="User Name" [ngClass]="{ 'is-invalid': submitted2 && f2.userName.errors} ">
+                                            </div>
+                                        </div>    
+                                        <input class="form-control" hidden formControlName="userId">
+                                        <div class="row form-group">
+                                            <div class="col-md-8 offset-md-2">
+                                                <input class="form-control" formControlName="location" placeholder="Location" [ngClass]="{ 'is-invalid': submitted2 && f2.location.errors} ">
+                                            </div>
+                                        </div>   
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" class="btn btn-primary" value="Save">
+                                        <button id="closeModal2" class="btn btn-default" (click)="editModal.close('Close click');">Cancel</button>
+                                    </div> 
+                                </form>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="isEmployer == '0'">
+                <div class="row margin-top-40">
+                    <div class="col-md-12">
+                        <h5 class="text-center">Experience</h5>
+                    </div>
+                </div>
+                <div class="row" *ngIf="isEmployer == '0'">
+                    <div class="col-md-2 offset-md-10">
+                        <button type="button" (click)="openModal(content)" class="btn btn-primary"><i class="fa fa-plus"></i> Add More</button>
+                    </div>
+                    <ng-template #content let-expModal>
+                        <div class="modal-header">
+                            <h5><strong>Experience</strong></h5>
+                        </div>
+                        <form (submit)="saveExp()" [formGroup]="expForm">
+                            <div class="modal-body">
+                                
+                                <div class="row form-group">
+                                    <div class="col-md-8 offset-md-2">
+                                        <input class="form-control" formControlName="company" placeholder="Company" [ngClass]="{ 'is-invalid': submitted1 && f.company.errors} ">
+                                    </div>
+                                </div>    
+                                <input class="form-control" hidden formControlName="userId">
+                                <div class="row form-group">
+                                    <div class="col-md-4 offset-md-2">
+                                        <!-- <strong>From: &nbsp;</strong> -->
+                                        <!-- <ngb-datepicker #d id="from"></ngb-datepicker> -->    
+                                       <div class="input-group ">
+                                            <input id="datepicker" formControlName="from" class="form-control"
+                                                placeholder="From" ngbDatepicker #date1="ngbDatepicker" 
+                                                pattern="[0-9]{4}[-][0-9]{2}[-][0-9]{2}">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary picto-calender" 
+                                                (click)="date1.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group ">
+                                            <input id="datepicker" formControlName="to" class="form-control"
+                                                placeholder="To" ngbDatepicker #date2="ngbDatepicker" 
+                                                pattern="[0-9]{4}[-][0-9]{2}[-][0-9]{2}">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary picto-calender" 
+                                                (click)="date2.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="margin-top-10"><input type="checkbox" formControlName="stillWorking"><span class="margin-left-10">Currently working</span></div>  
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-8 offset-md-2">
+                                        <input class="form-control" formControlName="position" placeholder="Position" [ngClass]="{ 'is-invalid': submitted1 && f.position.errors} ">
+                                    </div>
+                                </div>   
+                                <div class="row form-group">
+                                    <div class="col-md-8 offset-md-2">
+                                        <textarea class="form-control" formControlName="description" placeholder="Give a brief intro on what you did at the company to make your recruiter understand your profile better .." [ngClass]="{ 'is-invalid': submitted1 && f.description.errors} "></textarea>
+                                    </div>
+                                </div>   
+                                <!-- <div class="row form-group">
+                                    <div class="col-md-8 offset-md-2">
+                                        <input class="form-control" formControlName="from" placeholder="From">
+                                    </div>
+                                </div>    
+                                <div class="row form-group">
+                                    <div class="col-md-8 offset-md-2">
+                                        <input class="form-control" formControlName="to" placeholder="To">
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary" value="Save">
+                                <button id="closeModal" (click)="expModal.close('Close click');" class="btn btn-default">Cancel</button>
+                            </div> 
+                        </form>
+                        
+                    </ng-template>
+                </div>
+                <div *ngIf="user && user[0].position; else noExp">
+                    
+                    <div class="expDiv" *ngFor="let exp of user">
+                        <div class="row margin-top-10">
+                            <strong>{{exp['position']}}</strong>
+                        </div>
+                        <div class="row margin-top-10">
+                            <strong>{{exp['company']}}</strong>
+                        </div>
+                        <div class="row margin-top-10" *ngIf="exp.stillWorking == 0 else currentlyWorking">
+                            {{formatDate(exp.fromDate)}} - {{formatDate(exp.toDate)}}
+                        </div>
+                        <ng-template #currentlyWorking>
+                            <div class="row margin-top-10">
+                                {{formatDate(exp.fromDate)}} - <span class="gray-font">  &nbsp; current</span>
+                            </div> 
+                        </ng-template>
+                        <div class="row margin-top-10">
+                            {{exp['description']}}
+                        </div>
+                    </div>
+                </div>
+                <ng-template #noExp>
+                    <div class="expDiv">
+                        No Experience Added Yet
+                    </div>
+                </ng-template>
+            </div>
+
+            <!-- <div class="row margin-top-40">
+                <div class="col-md-12">
+                    <h5 class="text-center">Uploaded Videos</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 offset-md-9">
+                    <button type="button" class="btn btn-primary btn-profile"><i class="fa fa-plus"></i> Add More</button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <button type="button"  (click)="openModal(contentResume)" hidden id="resumeBtn"></button>
+    <ng-template #contentResume let-resumeModal>
+        <div class="modal-header">
+            Success
+        </div>
+        <div class="modal-body">
+            Your resume has been updated
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" type="button" (click)="resumeModal.close('Close Click');">
+                Ok
+            </button>
+        </div>
+    </ng-template>
+</div>

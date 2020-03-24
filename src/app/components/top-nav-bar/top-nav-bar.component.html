@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-green pos-fix width-100">
+    <a class="navbar-brand" href="#"><strong class="white-font logo-font">JobZone</strong></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse margin-left-40" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <!-- <li class="nav-item active">
+          <a class="nav-link" routerLink="/login">Home <span class="sr-only">(current)</span></a>
+        </li> -->
+        <!-- <li class="nav-item float-right">
+          <a class="nav-link" href="#">Log Out</a>
+        </li> -->
+        <!--<li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li> -->
+      </ul>
+      <!-- <span class="navbar-text">
+        Navbar text with an inline element
+      </span> -->
+    </div>
+    <div ngbDropdown class="d-inline-block margin-right-135">
+      <span *ngIf="userName" ngbDropdownToggle><i class="fa fa-bell fa-nav white-font"></i></span>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic2" id="dropdownBasic2" class="">
+        <div *ngIf="notifications && notifications.length > 0; else elseTemplate">
+          <div class="row" *ngFor="let n of notifications">
+            <div class="col-md-12 text-center">{{n.msg}}<hr class="hr-cstm"></div>
+          </div>
+        </div>
+        <ng-template #elseTemplate>
+          <div class="row">
+            <div class="col-md-12 text-center">No notifications</div>
+          </div>
+        </ng-template>
+        
+      </div>
+    </div>
+
+    <div ngbDropdown class="d-inline-block">
+      <span *ngIf="userName" id="dropdownBasic1" ngbDropdownToggle class="white-font">{{userName}}</span>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <a (click)="openLogoutModal(contentLogout)" class="dropdown-item-cstm"><span class="">Log Out</span></a>
+      </div>
+    </div>
+    <ng-template #contentLogout let-modallogout>
+      <div class="modal-body">
+          <h5>Are you sure you want to logout ?</h5>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="modallogout.close('Close click')">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="logOut(); modallogout.close('Close click');">Log Out</button>
+      </div>
+    </ng-template>
+  </nav>

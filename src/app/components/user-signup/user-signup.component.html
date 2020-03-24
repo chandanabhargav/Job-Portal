@@ -1,0 +1,76 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="signupForm" class="form-signup row">
+    <div class="col-md-4 offset-md-4 bg-white-cstm form-cstm">
+        <div class="form-group row" *ngIf="status">
+            <div class="col-md-12">
+                <p class="text-center status">{{status}}</p>
+            </div>
+        </div> 
+        <div class="form-group row">
+            <div class="col-md-12">
+                <h3 class="text-center">Sign Up</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <span class="signup-font">Do you want to hire ?</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                <select class="form-control" (change)="isEmployerOnChange($event.target)" formControlName="isEmployer" [ngClass]= "{ 'is-invalid': submitted && f.isEmployer.errors }">
+                    <option value=""></option>
+                    <option value="1">Yes, I want to hire</option>
+                    <option value="0">No, I want to get hired</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" *ngIf="isEmployer">
+            <div class="col-md-5">
+                <span class="signup-font">Do you represent a company ?</span>
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="isEmployer">
+            <div class="col-md-12">
+                <select class="form-control" formControlName="isCompany" [ngClass]= "{ 'is-invalid': submitted && f.isCompany.errors }">
+                    <!-- <option value=""></option> -->
+                    <option value="1">Yes, My company/school wants to hire</option>
+                    <option value="0">No, I am looking for tutors</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="isFilled">
+            <div class="col-md-12">
+                <input class="form-control" placeholder="Email Address" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors}">
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="isFilled">
+            <div class="col-md-12">
+                <input class="form-control" placeholder="User Name / Company Name" formControlName="userName" [ngClass]="{ 'is-invalid': submitted && f.userName.errors }">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 invalid-feedback" *ngIf="submitted && f.userName.errors">
+                <div *ngIf="f.userName.errors.required">User name is required</div>
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="isFilled">
+            <div class="col-md-12">
+                <input class="form-control" type="password" placeholder="Password" formControlName="pwd" [ngClass]="{'is-invalid': submitted && f.pwd.errors}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" *ngIf="submitted && f.pwd.errors">
+                <!-- <div *ngIf="f.password.errors.required">Password is required</div> -->
+                <div *ngIf="f.pwd.errors.minlength">Password should have a minumum of 6 characters</div>
+            </div>
+        </div>
+        <div class="form-group row margin-top-20">
+            <div class="col-md-6">
+                <input type="submit" class="btn btn-info btn-full" value="Sign Up">
+            </div>            
+            <div class="col-md-6">
+                <button type="button" class="btn btn-info btn-full" routerLink="/login">Back</button>
+            </div>            
+        </div>
+    </div>
+</form>

@@ -1,0 +1,63 @@
+<div class="container">
+    <app-top-nav-bar></app-top-nav-bar>
+    <div class="row height-100">
+        <div class="col-md-2 offset-md-1 height-100 margin-top-20 pos-fix margin-top-70">
+            <app-left-nav-bar></app-left-nav-bar>
+        </div>
+        <div class="col-md-4 offset-md-4 height-100 margin-top-70">
+            <form [formGroup]="postJobForm" (ngSubmit)="onSubmit()">
+                <input class="form-control" formControlName="userId" hidden>
+                
+                <div class="row form-group">
+                    <label for="position">Position: </label>
+                    <input class="form-control font-strong" formControlName="position" [ngClass]=" {'is-invalid': submitted && f.position.errors} ">
+                </div>
+                <div class="row form-group">
+                    <label for="salary">Salary ( in <strong>INR</strong> ): </label>
+                    <input type="number" class="form-control" formControlName="salary" [ngClass]=" {'is-invalid': submitted && f.salary.errors} ">
+                </div>
+                <div class="row form-group">
+                    <label for="description">Description: </label>
+                    <textarea class="form-control textarea-cstm" formControlName="description" [ngClass]=" {'is-invalid': submitted && f.description.errors} "></textarea>
+                </div>
+                <div class="row form-group">
+                    <label for="city">City: </label>
+                    <input class="form-control font-strong" formControlName="city" [ngClass]=" {'is-invalid': submitted && f.city.errors} ">
+                </div>
+                <div class="row form-group">
+                    <label for="state">State: </label>
+                    <input class="form-control font-strong" formControlName="state" [ngClass]=" {'is-invalid': submitted && f.state.errors} ">
+                </div>
+                <div class="row form-group">
+                    <label for="country">Country: </label>
+                    <input class="form-control font-strong" formControlName="country" [ngClass]=" {'is-invalid': submitted && f.country.errors} ">
+                </div>
+                <div class="row form-group">
+                    <label for="postalCode">Postal Code: </label>
+                    <input type='number' class="form-control font-strong" formControlName="postalCode" [ngClass]=" {'is-invalid': submitted && f.postalCode.errors} ">
+                </div>
+                <div class="row">
+                    <div class="invalid" *ngIf="submitted && f.description.errors">
+                        
+                        <div *ngIf="f.description.errors.minLength">The job applicants will understand the role better if you give a description of about 50 characters.</div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <input type="submit" value="Post Job" class="btn postJobBtn">
+                </div>
+            </form>
+        </div>
+        <button (click)="openModal(content)" id="openModalBtn" hidden></button>
+        <ng-template #content let-modalPostSucess>
+            <div class="modal-header">
+                Success
+            </div>
+            <div class="modal-body">
+                Your job has been posted successfully
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" (click)="modalPostSucess.close('Close click');">Ok</button>
+            </div>
+        </ng-template>
+    </div>
+</div>

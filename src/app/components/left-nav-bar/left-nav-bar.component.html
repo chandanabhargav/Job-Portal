@@ -1,0 +1,28 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+    <ul class="nav sidebar-nav"> 
+        <li>
+            <a routerLink="/home"><i class="fa fa-home fa-nav"></i>Home</a>
+        </li>
+        <!-- <li *ngIf="isEmployer; else elseTemplate1">
+            <a routerLink="/appJobs"><i class="fa fa-suitcase fa-nav"></i>Posted Jobs</a>
+        </li>
+        <ng-template #elseTemplate1>
+            <li>
+                <a routerLink="/postedJobs"><i class="fa fa-suitcase fa-nav"></i>Applied Jobs</a>
+            </li>
+        </ng-template> -->
+
+        <li *ngIf="isEmployer == '1'; else employee">
+            <a routerLink="/postJob"><i class="fa fa-suitcase fa-nav"></i>Post a job</a>
+        </li>
+        <ng-template #employee>
+            <li>
+                <a routerLink="/appliedJobs"><i class="fa fa-suitcase fa-nav"></i>Applied Jobs</a>
+            </li>
+        </ng-template>
+        
+        <li>
+            <a routerLink="/profile/{{userId}}"><i class="fa fa-user fa-nav"></i>Profile</a>
+        </li>
+    </ul>
+</nav>

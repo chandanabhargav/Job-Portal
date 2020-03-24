@@ -1,0 +1,86 @@
+<div class="container">
+    <app-top-nav-bar></app-top-nav-bar>
+    <div class="row height-100">
+        <div class="col-md-2 offset-md-1 height-100 margin-top-20 pos-fix margin-top-70">
+            <app-left-nav-bar></app-left-nav-bar>
+        </div>
+        <div class="col-md-6 offset-md-4 height-100 margin-top-100" id="viewMore">
+            <div class="row">
+                <div class="col-md-12"><h5 class="text-center green-font">Job Details</h5></div>
+            </div>
+            <div class="top-row-details">
+                <div class="row margin-top-10 text-center">
+                    <div class="col-md-3 font-strong">Position</div>
+                    <div class="col-md-9"><strong>{{details[0].position}}</strong></div>
+                </div>
+                <div class="row margin-top-40 text-center">
+                    <div class="col-md-3 font-strong">Salary</div>
+                    <div class="col-md-9">{{details[0].salary}}</div>
+                </div>
+                <div class="row margin-top-40 text-center">
+                    <div class="col-md-3 font-strong">Description</div>
+                    <div class="col-md-9">{{details[0].description}}</div>
+                </div>
+                <div class="row margin-top-40 text-center">
+                    <div class="col-md-3 font-strong">City</div>
+                    <div class="col-md-9">{{details[0].city}}</div>
+                </div>
+                <div class="row margin-top-40 text-center">
+                    <div class="col-md-3 font-strong">State</div>
+                    <div class="col-md-9">{{details[0].state}}</div>
+                </div>
+                <div class="row margin-top-40 text-center">
+                    <div class="col-md-3 font-strong">Country</div>
+                    <div class="col-md-9">{{details[0].country}}</div>
+                </div>
+                <div class="row margin-top-40 text-center">
+                    <div class="col-md-3 font-strong">Postal Code</div>
+                    <div class="col-md-9">{{details[0].postalCode}}</div>
+                </div>
+            </div>
+            <div *ngIf="isEmployer == '1'">
+                <div class="row margin-top-40">
+                    <div class="col-md-12"><h5 class="text-center green-font">Applicants</h5></div>
+                </div>
+                <div class="top-row" *ngIf="details[0] && details[0].applicantId; else noApplicants">
+                    <div *ngFor="let detail of details" class="margin-top-50">
+                        <div class="row bottom-row">
+                            <div class="col-md-9"><strong><a routerLink="/profile/{{detail.applicantId}}">{{detail.userName}}</a></strong></div>
+                            <div class="col-md-3">
+                                <button *ngIf="detail.isShortlisted == 1; else elseTemplate" type="button" class="btn btn-primary">Shorlisted</button>
+                                <ng-template #elseTemplate>
+                                    <button  type="button" class="btn btn-primary" (click)="shortlist($event.target, detail.applicantId, detail.aId)">Shorlist</button> 
+                                </ng-template> 
+                            </div>
+                            <!-- <div class="col-md-1">
+                                <button type="button" class="btn btn-primary" (click)="accept(detail.applicantId)">Accept</button>
+                            </div>
+                            <div class="col-md-1 margin-left-10">
+                                <button type="button" class="btn btn-danger" (click)="reject(detail.applicantId)">Reject</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <ng-template #noApplicants>
+                    <div class="top-row">
+                        No Applicants yet
+                    </div>
+
+                </ng-template>
+                
+            </div>
+        </div>
+        <button (click)="openModal(content)" id="openModalBtn" hidden></button>
+        <ng-template #content let-modalPostSucess>
+            <div class="modal-header">
+                Success
+            </div>
+            <div class="modal-body">
+                Successfully {{status}}. <span *ngIf="status == 'accepted'">We will let them know.</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" (click)="modalPostSucess.close('Close click');">Ok</button>
+            </div>
+        </ng-template>
+    </div>
+</div>
